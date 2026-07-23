@@ -1,108 +1,65 @@
 <div align="center">
-
-<img src="https://raw.githubusercontent.com/deepset-ai/haystack/main/images/banner.png" alt="Haystack banner" width="100%">
-
-<br>
-
-<h1>Haystack</h1>
-
-<h3>The open-source AI orchestration framework for production-ready RAG and agents</h3>
-
-<p>
-  <a href="https://pypi.org/project/haystack-ai/"><img src="https://img.shields.io/pypi/v/haystack-ai?color=F2A93B&label=PyPI" alt="PyPI"></a>
-  <img src="https://img.shields.io/pypi/pyversions/haystack-ai?color=1B2A4A&logo=python&logoColor=gold" alt="Python versions">
-  <a href="LICENSE"><img src="https://img.shields.io/github/license/deepset-ai/haystack?color=1B2A4A" alt="License"></a>
-  <a href="https://github.com/deepset-ai/haystack/actions/workflows/tests.yml"><img src="https://github.com/deepset-ai/haystack/actions/workflows/tests.yml/badge.svg" alt="Tests"></a>
-  <a href="https://docs.haystack.deepset.ai"><img src="https://img.shields.io/website?label=docs&up_message=online&url=https%3A%2F%2Fdocs.haystack.deepset.ai&color=F2A93B" alt="Docs"></a>
-  <a href="https://discord.com/invite/qZxjM4bAHU"><img src="https://img.shields.io/discord/993534733298450452?logo=discord&color=1B2A4A&logoColor=white" alt="Discord"></a>
-</p>
-
-<p>
-  <a href="https://haystack.deepset.ai/"><b>Website</b></a> ·
-  <a href="https://docs.haystack.deepset.ai"><b>Documentation</b></a> ·
-  <a href="https://haystack.deepset.ai/tutorials"><b>Tutorials</b></a> ·
-  <a href="https://haystack.deepset.ai/cookbook"><b>Cookbook</b></a> ·
-  <a href="https://discord.com/invite/qZxjM4bAHU"><b>Discord</b></a>
-</p>
-
+<img src="images/hero-banner.svg" alt="Haystack" width="100%">
 </div>
-
-<br>
-
-## What is Haystack?
-
-Haystack is a Python framework for building LLM-powered applications you can actually put into production — retrieval-augmented generation (RAG), semantic search, question answering, and autonomous agents.
-
-Instead of hiding logic behind magic abstractions, Haystack gives you **explicit, composable building blocks** — components you connect into pipelines and agent workflows. You decide exactly how retrieval, ranking, memory, tool use, and generation fit together, and you can swap any piece out without rewriting the rest of the system.
-
-<br>
 
 <div align="center">
-<img src="images/pipeline-flow.svg" alt="A Haystack pipeline: Documents to Retriever to Prompt Builder to LLM Generator to Answer" width="100%">
+
+[![PyPI](https://img.shields.io/pypi/v/haystack-ai?color=F2A93B&label=PyPI)](https://pypi.org/project/haystack-ai/)
+![Python](https://img.shields.io/pypi/pyversions/haystack-ai?color=1B2A4A&logo=python&logoColor=gold)
+[![License](https://img.shields.io/github/license/deepset-ai/haystack?color=1B2A4A)](LICENSE)
+[![Tests](https://github.com/deepset-ai/haystack/actions/workflows/tests.yml/badge.svg)](https://github.com/deepset-ai/haystack/actions/workflows/tests.yml)
+
 </div>
 
 <br>
 
-## Why Haystack
+## What this is
 
-<table>
-<tr>
-<td width="50%" valign="top">
+Haystack is a Python framework for wiring together the pieces an LLM application actually needs in production: something that goes and finds the right information, something that decides what to do with it, and something that turns it into a response — with every step visible and swappable, rather than buried inside a single black-box call.
 
-### 🤖 Production-first agents
-Lifecycle hooks (`before_llm`, `before_tool`, `on_exit`, …) give you guardrails and custom logic. Step counts, token usage, and tool calls are tracked out of the box.
+Under the hood, everything is a **component** — a small, self-contained unit with typed inputs and outputs. You connect components into a **Pipeline** (a directed graph the framework validates and runs for you) or hand them to an **Agent** that decides at runtime which tools to call and when to stop. Nothing about the control flow is hidden from you; if you want to see exactly why a particular document was retrieved or why the model called a particular tool, you can, because the graph is explicit.
 
-### 🧩 Context engineering, not prompt guesswork
-Precise control over how information is retrieved, ranked, filtered, and routed before it ever reaches the model.
+## Why people reach for it instead of gluing API calls together
 
-### ⚡ Native async & streaming
-The same `Pipeline` runs sync or async and streams tokens as they're generated. `Agent` can run tool calls concurrently.
+**The wiring is visible.** A `Pipeline` is a graph you can inspect, draw, save to YAML, and reload. When something goes wrong three components deep, you're debugging a named node, not stepping through a wall of chained function calls.
 
-</td>
-<td width="50%" valign="top">
+**Agents are more than a system prompt and a while-loop.** Hooks fire at defined points in an agent's execution (`before_llm`, `before_tool`, `on_exit`, and others), so you can add guardrails, logging, or cost limits without forking the agent's internals. Token usage and tool-call counts are tracked automatically.
 
-### 🔧 Modular by design
-Use the built-in components or write your own, and wire them together with loops, branches, and conditional logic.
+**It doesn't lock you into one model vendor.** The same pipeline code runs against OpenAI, Anthropic, Cohere, Mistral, Hugging Face models, Bedrock, Azure, or something running locally — swapping providers is a one-line change to a component's constructor, not a rewrite.
 
-### 🌐 Model- and vendor-agnostic
-OpenAI, Anthropic, Mistral, Cohere, Hugging Face, Google, Azure OpenAI, AWS Bedrock, local models — all behind one consistent interface.
+**Retrieval is a first-class citizen, not an afterthought.** The codebase ships dedicated retrievers for sparse, dense, multi-query, sentence-window, and auto-merging retrieval strategies, plus rankers and samplers to shape what actually reaches the prompt.
 
-### 🧱 Extensible ecosystem
-A shared component interface makes it easy to build and share integrations with the community.
+**Async and streaming aren't bolted on.** The same pipeline definition can run synchronously or asynchronously, and chat generators stream tokens as they arrive.
 
-</td>
-</tr>
-</table>
-
-<br>
-
-## The ecosystem
+## How the pieces fit together
 
 <div align="center">
-<img src="images/ecosystem-overview.svg" alt="Haystack ecosystem: LLM providers, document stores, agents and tools, retrieval and ranking, community integrations, and deployment options, all around the Haystack core" width="100%">
+<img src="images/pipeline-flow.svg" alt="Documents flow into a Retriever, into a Prompt Builder, into an LLM Generator, producing an Answer" width="100%">
 </div>
 
-<br>
+That's the shape of a basic RAG pipeline. Swap the retriever for a hybrid one, add a ranker between retrieval and prompting, or replace the single LLM call with an `Agent` that can call tools and loop — the graph metaphor stays the same as the system grows more complex.
 
-## Installation
+<div align="center">
+<img src="images/ecosystem-overview.svg" alt="Haystack core surrounded by LLM providers, document stores, agents and tools, retrieval and ranking components, community integrations, and deployment options" width="100%">
+</div>
+
+## Getting it installed
 
 ```bash
 pip install haystack-ai
 ```
 
-Want the bleeding edge?
+Living on the edge:
 
 ```bash
 pip install --pre haystack-ai
 ```
 
-Docker images and other installation methods are covered in the [installation docs](https://docs.haystack.deepset.ai/docs/installation).
+There's also a Docker base image and platform-specific notes in the [installation docs](https://docs.haystack.deepset.ai/docs/installation) if pip alone isn't enough for your setup.
 
-<br>
+## A working example, not a toy snippet
 
-## Quick example
-
-A minimal RAG pipeline: retrieve relevant documents, then generate an answer grounded in them.
+This builds an in-memory document store, retrieves against it with BM25, and asks a chat model to answer using only what it found:
 
 ```python
 from haystack import Pipeline, Document
@@ -112,85 +69,66 @@ from haystack.components.builders import ChatPromptBuilder
 from haystack.components.generators.chat import OpenAIChatGenerator
 from haystack.dataclasses import ChatMessage
 
-# 1. Store some documents
-document_store = InMemoryDocumentStore()
-document_store.write_documents([
-    Document(content="Haystack is an open-source AI orchestration framework."),
-    Document(content="Pipelines connect components like retrievers and generators."),
+store = InMemoryDocumentStore()
+store.write_documents([
+    Document(content="Haystack pipelines are directed graphs of components."),
+    Document(content="Agents in Haystack can call tools in a loop until a task is done."),
 ])
 
-# 2. Build a pipeline
 pipeline = Pipeline()
-pipeline.add_component("retriever", InMemoryBM25Retriever(document_store=document_store))
-pipeline.add_component("prompt_builder", ChatPromptBuilder(
-    template=[ChatMessage.from_user(
-        "Given these documents: {{documents}}\nAnswer the question: {{question}}"
-    )]
-))
+pipeline.add_component("retriever", InMemoryBM25Retriever(document_store=store))
+pipeline.add_component(
+    "prompt_builder",
+    ChatPromptBuilder(template=[
+        ChatMessage.from_user("Context:\n{{documents}}\n\nQuestion: {{question}}")
+    ]),
+)
 pipeline.add_component("llm", OpenAIChatGenerator(model="gpt-4o-mini"))
 
 pipeline.connect("retriever.documents", "prompt_builder.documents")
 pipeline.connect("prompt_builder.prompt", "llm.messages")
 
-# 3. Run it
-result = pipeline.run({
-    "retriever": {"query": "What is Haystack?"},
-    "prompt_builder": {"question": "What is Haystack?"},
+answer = pipeline.run({
+    "retriever": {"query": "What is a Haystack pipeline?"},
+    "prompt_builder": {"question": "What is a Haystack pipeline?"},
 })
-print(result["llm"]["replies"][0].text)
+
+print(answer["llm"]["replies"][0].text)
 ```
 
-> New to Haystack? Start with [**"What is Haystack?"**](https://haystack.deepset.ai/overview/intro) and the [**Get Started guide**](https://haystack.deepset.ai/overview/quick-start), then explore the [tutorials](https://haystack.deepset.ai/tutorials) and [Cookbook](https://haystack.deepset.ai/cookbook) for real-world recipes.
+From here, the natural next steps are usually: swap `InMemoryDocumentStore` for a real vector database, add a ranker between retrieval and prompting, or replace the fixed pipeline with an `Agent` that picks its own tools. The [tutorials](https://haystack.deepset.ai/tutorials) and [Cookbook](https://haystack.deepset.ai/cookbook) walk through all three.
 
-<br>
+## Shipping it
 
-## Deploying pipelines as APIs
+Pipelines and agents built with Haystack don't have to stay inside a Python script. [Hayhooks](https://github.com/deepset-ai/hayhooks) exposes them as REST endpoints or MCP servers, including an OpenAI-compatible chat completions endpoint, so they can sit behind whatever frontend or chat UI (e.g. open-webui) you're already running.
 
-Want to serve your pipelines and agents as **REST APIs** or **MCP servers**? [Hayhooks](https://github.com/deepset-ai/hayhooks) wraps them with custom logic and exposes them over HTTP or MCP, including OpenAI-compatible chat completion endpoints that work with UIs like [open-webui](https://openwebui.com/).
-
-<br>
-
-## Documentation
+## Where to read more
 
 | | |
 |---|---|
-| 📖 | [Documentation](https://docs.haystack.deepset.ai/docs/intro) |
-| 🎓 | [Tutorials](https://haystack.deepset.ai/tutorials) |
-| 🍳 | [Cookbook](https://haystack.deepset.ai/cookbook) — real-world recipes and advanced use cases |
-| 📰 | [Blog](https://haystack.deepset.ai/blog) |
+| 📖 Docs | https://docs.haystack.deepset.ai |
+| 🎓 Tutorials | https://haystack.deepset.ai/tutorials |
+| 🍳 Cookbook | https://haystack.deepset.ai/cookbook |
+| 📰 Blog | https://haystack.deepset.ai/blog |
 
-<br>
+## Telemetry, briefly
 
-## Telemetry
+Component initialization events are collected anonymously so the maintainers can see which parts of the framework actually get used — no content or personal data leaves your machine. It can be turned off; the [telemetry docs](https://docs.haystack.deepset.ai/docs/telemetry) explain how.
 
-Haystack collects **anonymous** usage statistics about which components are initialized, so the maintainers know what matters most to the community. No personal data or content ever leaves your machine. Read more, or opt out, in the [telemetry docs](https://docs.haystack.deepset.ai/docs/telemetry).
+## Talking to people, not just to the code
 
-<br>
-
-## Community
-
-- 🐛 Found a bug or have a feature request? [Open an issue](https://github.com/deepset-ai/haystack/issues).
-- 💬 Want to discuss an idea or get advice? [GitHub Discussions](https://github.com/deepset-ai/haystack/discussions) or the [Discord server](https://discord.com/invite/qZxjM4bAHU).
-- 🐦 Follow along on [X (Twitter)](https://twitter.com/haystack_ai) or ask on [Stack Overflow](https://stackoverflow.com/questions/tagged/haystack).
-
-<br>
+- Bug or missing feature → [open an issue](https://github.com/deepset-ai/haystack/issues)
+- Want to talk through an approach → [GitHub Discussions](https://github.com/deepset-ai/haystack/discussions) or the [Discord](https://discord.com/invite/qZxjM4bAHU)
+- Prefer X or Stack Overflow → [@haystack_ai](https://twitter.com/haystack_ai) / [stackoverflow.com/questions/tagged/haystack](https://stackoverflow.com/questions/tagged/haystack)
 
 ## Contributing
 
-Contributions of all sizes are welcome — from a typo fix to a brand-new feature. Read the [Contributor Guidelines](CONTRIBUTING.md) to get started, and check the [list of issues open for contribution](https://github.com/orgs/deepset-ai/projects/14).
-
-You can contribute to:
-- the core [Haystack](https://github.com/deepset-ai/haystack) project
-- an integration in [haystack-core-integrations](https://github.com/deepset-ai/haystack-core-integrations)
-- the [documentation site](https://github.com/deepset-ai/haystack/tree/main/docs-website)
-
-<br>
+Small fixes and large features are both genuinely welcome — start with the [Contributor Guidelines](CONTRIBUTING.md), and if you want a concrete place to start, there's a running [list of issues open for outside contribution](https://github.com/orgs/deepset-ai/projects/14). Beyond the core repository, there's also room to contribute an integration in [haystack-core-integrations](https://github.com/deepset-ai/haystack-core-integrations) or to improve the [documentation site](https://github.com/deepset-ai/haystack/tree/main/docs-website) itself.
 
 ## License
 
-Haystack is released under the [Apache License 2.0](LICENSE).
+Apache License 2.0 — see [LICENSE](LICENSE).
 
-## Citation
+## Citing this project
 
-If you use Haystack in your research, please cite it using the metadata in [`CITATION.cff`](CITATION.cff).
-
+If Haystack shows up in a paper or writeup, the citation metadata lives in [`CITATION.cff`](CITATION.cff).
