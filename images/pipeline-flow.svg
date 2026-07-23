@@ -1,0 +1,63 @@
+<svg viewBox="0 0 1000 240" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#F2A93B"/>
+    </marker>
+    <linearGradient id="nodeGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F6F7FB"/>
+    </linearGradient>
+  </defs>
+
+  <!-- connecting line -->
+  <line x1="120" y1="120" x2="880" y2="120" stroke="#F2A93B" stroke-width="2.5" stroke-dasharray="0" marker-end="url(#arrow)"/>
+
+  <!-- Node template: rounded rect + icon circle + label -->
+
+  <!-- Node 1: Documents -->
+  <g transform="translate(40,60)">
+    <rect x="0" y="0" width="160" height="120" rx="16" fill="url(#nodeGrad)" stroke="#1B2A4A" stroke-width="1.5"/>
+    <circle cx="80" cy="38" r="22" fill="#1B2A4A"/>
+    <text x="80" y="46" text-anchor="middle" font-size="22">📄</text>
+    <text x="80" y="82" text-anchor="middle" font-size="15" font-weight="600" fill="#1B2A4A">Documents</text>
+    <text x="80" y="102" text-anchor="middle" font-size="11" fill="#5A6478">Your raw data</text>
+  </g>
+
+  <!-- Node 2: Retriever -->
+  <g transform="translate(240,60)">
+    <rect x="0" y="0" width="160" height="120" rx="16" fill="url(#nodeGrad)" stroke="#1B2A4A" stroke-width="1.5"/>
+    <circle cx="80" cy="38" r="22" fill="#1B2A4A"/>
+    <text x="80" y="46" text-anchor="middle" font-size="22">🔍</text>
+    <text x="80" y="82" text-anchor="middle" font-size="15" font-weight="600" fill="#1B2A4A">Retriever</text>
+    <text x="80" y="102" text-anchor="middle" font-size="11" fill="#5A6478">Finds relevant docs</text>
+  </g>
+
+  <!-- Node 3: Prompt Builder -->
+  <g transform="translate(440,60)">
+    <rect x="0" y="0" width="160" height="120" rx="16" fill="url(#nodeGrad)" stroke="#1B2A4A" stroke-width="1.5"/>
+    <circle cx="80" cy="38" r="22" fill="#1B2A4A"/>
+    <text x="80" y="46" text-anchor="middle" font-size="22">📝</text>
+    <text x="80" y="82" text-anchor="middle" font-size="15" font-weight="600" fill="#1B2A4A">Prompt Builder</text>
+    <text x="80" y="102" text-anchor="middle" font-size="11" fill="#5A6478">Assembles context</text>
+  </g>
+
+  <!-- Node 4: LLM Generator -->
+  <g transform="translate(640,60)">
+    <rect x="0" y="0" width="160" height="120" rx="16" fill="url(#nodeGrad)" stroke="#1B2A4A" stroke-width="1.5"/>
+    <circle cx="80" cy="38" r="22" fill="#1B2A4A"/>
+    <text x="80" y="46" text-anchor="middle" font-size="22">🤖</text>
+    <text x="80" y="82" text-anchor="middle" font-size="15" font-weight="600" fill="#1B2A4A">LLM Generator</text>
+    <text x="80" y="102" text-anchor="middle" font-size="11" fill="#5A6478">Any provider</text>
+  </g>
+
+  <!-- Node 5: Answer -->
+  <g transform="translate(840,60)">
+    <rect x="0" y="0" width="120" height="120" rx="16" fill="#1B2A4A" stroke="#1B2A4A" stroke-width="1.5"/>
+    <circle cx="60" cy="38" r="22" fill="#F2A93B"/>
+    <text x="60" y="46" text-anchor="middle" font-size="22">💬</text>
+    <text x="60" y="82" text-anchor="middle" font-size="15" font-weight="600" fill="#FFFFFF">Answer</text>
+    <text x="60" y="102" text-anchor="middle" font-size="11" fill="#C9D2E3">Grounded reply</text>
+  </g>
+
+  <text x="500" y="225" text-anchor="middle" font-size="13" fill="#8A93A6">A Haystack Pipeline — every arrow is a connection you define explicitly</text>
+</svg>
